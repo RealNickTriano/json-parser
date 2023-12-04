@@ -1,8 +1,9 @@
 package org.parser;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 public class Main {
-    public static void main(String[] args) throws IllegalArgumentException {
+    public static void main(String[] args) throws Exception {
 
         System.out.println("---- Lex Number Test ----");
         System.out.println(Lexer.lexNumber("4124"));
@@ -29,6 +30,17 @@ public class Main {
         // Test Lex
         System.out.println("---- Test Lex ----");
         System.out.println(Lexer.lex("{\"foo\":[1,2,\"three\"]}"));
+
+        System.out.println("---- Test Full Parse ----");
+        List<Object> tokens = Lexer.lex("{\"foo\":[1,2,\"three\"]}");
+        try {
+            Map<String, Object> json = (Map<String, Object>) SyntaxAnalysis.parse(tokens).getObject();
+            System.out.println("Got: "  + json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Expected: {\"foo\":[1,2,\"three\"]}");
 
     }
 
